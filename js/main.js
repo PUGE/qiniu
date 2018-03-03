@@ -1,20 +1,21 @@
 
 $(function() {
-  const keys = ['ak', 'sk', 'bucket', 'domain'];
-  let isConfig = true;
-  
+  // 判断是否完成所有设置
+  const keys = ['ak', 'sk', 'bucket', 'domain']
+  let isConfig = true
   keys.forEach(key => {
     if (!localStorage[key]) {
-      isConfig = false;
+      isConfig = false
     }
   })
-
+  // 如果发现没有设置完所有项目则跳转到设置界面
   if (!isConfig) {
-    chrome.tabs.create({url: 'options.html'});
+    chrome.tabs.create({url: 'options.html'})
   }
-  const uptoken = genUpToken(localStorage['ak'], localStorage['sk'], localStorage['bucket']);
-  const domain = localStorage['domain'].indexOf('http') == -1 ? 'http://' + localStorage['domain'] : localStorage['domain'];
-  var uploader = Qiniu.uploader({
+  // 获取上传token
+  const uptoken = genUpToken(localStorage['ak'], localStorage['sk'], localStorage['bucket'])
+  const domain = localStorage['domain'].indexOf('http') == -1 ? 'http://' + localStorage['domain'] : localStorage['domain']
+  const uploader = Qiniu.uploader({
     disable_statistics_report: false,
     runtimes: 'html5,flash,html4',
     browse_button: 'pickfiles',
@@ -67,7 +68,7 @@ $(function() {
       'Error': function(up, err, errTip) {
         }
     }
-  });
+  })
 
   $('#container').on(
     'dragenter',
